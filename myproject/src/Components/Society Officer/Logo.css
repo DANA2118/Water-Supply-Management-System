@@ -1,0 +1,23 @@
+.logo{
+    line-height: 0.8;
+    display: flex;
+    align-items: center; /* Align items vertically */
+    margin-top: 5px; 
+    margin-left: 10px; /* Ensure no margin is applied */
+    padding-left: 10px;
+    text-decoration: none;
+}
+
+
+@media (min-width: 1200px) {
+    .logo {
+        width: 280px;
+    }    
+}
+
+.logo span {
+    font-size: 26px;
+    font-weight: 700;
+    color: rgb(5, 71, 71);
+    font-family: 'Montserrat', sans-serif;
+}

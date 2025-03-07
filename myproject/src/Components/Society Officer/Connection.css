@@ -1,0 +1,13 @@
+.Connection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+  
+.table-container {
+    display: flex;
+    justify-content: center;
+    background-color: brown;
+    align-items: center;
+    width: 100%;
+  }

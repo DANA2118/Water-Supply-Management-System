@@ -1,0 +1,15 @@
+.header{
+    transition: all 0.5s;
+    z-index: 500;
+    height: 45px;
+    background: rgba(253, 252, 252, 0.292);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    backdrop-filter: blur(10px);
+}
+
+
+.header .toggle-sidebar-btn{
+    font-size:25px;
+    cursor: pointer;
+    color: rgb(6, 68, 68);
+}

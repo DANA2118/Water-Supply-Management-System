@@ -1,0 +1,177 @@
+/*.menu {
+    max-width: 250px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    background:transparent; 
+    color: white;
+    position: fixed;
+    left: 0;
+    top: 0;
+    transition: all 0.3s ease-in-out;
+}
+
+.menu--list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3rem;
+    padding: 2rem 0;
+    width: 100%;
+}
+
+.logo {
+    text-align: center;
+    padding: 10px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: rgb(5, 71, 64);
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 50px;
+}
+
+.menu--list .item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 20px;
+    font-size: 1rem;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 12px;
+    transition: 0.3s ease-in-out;
+    color: black;
+    background-color: white;
+    opacity: 0.6;
+    border-radius: 10px;
+    text-align: left;
+}
+
+.menu--list .item:hover {
+    background-color: rgb(17, 116, 106);
+    color: white;
+    opacity: 1;
+}
+
+
+@media (max-width: 1024px) {
+    .menu {
+        width: 200px;
+    }
+
+    .menu--list .item {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .menu {
+        width: 80px; 
+        align-items: center;
+        padding: 10px;
+    }
+
+    .menu--list .item {
+        justify-content: center;
+        font-size: 0.8rem;
+        padding: 8px;
+        text-align: center;
+    }
+
+    .logo {
+        font-size: 1rem;
+        padding: 5px;
+    }
+}*/
+
+.sidebar {
+    position: fixed;
+    top: 150px;
+    left: 0;
+    bottom: 0;
+    width: 270px;
+    z-index: 996;
+    transition: all 0.3s;
+    padding: 20px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #aab7cf transparent;
+    background-color: transparent;
+}
+
+.sidebar ul {
+    list-style: none; /* Remove dots from list items */
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li {
+    margin-bottom: 50px; /* Add space between items */
+}
+
+.sidebar ul li a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+    color: black;
+    text-decoration: none;
+    border-radius: 10px; /* Apply border-radius */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    backdrop-filter: blur(10px); /* Blur effect */
+    border: 1px solid rgba(255, 255, 255, 0.496); /* Border to enhance glass effect */
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a.active  {
+    background-color: rgb(17, 116, 106);
+    color: white;
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 5px;
+    height: 8px;
+    background-color: #fff;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background-color: #aab7cf;
+    border-radius: 10px;
+}
+
+@media (max-width: 1199px) {
+    .sidebar {
+        width: -300px;
+    }
+}
+
+@media (min-width: 1200px) {
+    #main, #footer {
+        margin-left: 300px;
+    }
+}
+
+@media (max-width: 1199px) {
+    .toggle-sidebar .sidebar {
+        left: 0;
+    }
+}
+
+@media (min-width: 1200px) {
+    .toggle-sidebar #main,
+    .toggle-sidebar #footer {
+        margin-left: 0px;
+    }
+
+    .toggle-sidebar .sidebar {
+        left: -300px;
+    }
+}
