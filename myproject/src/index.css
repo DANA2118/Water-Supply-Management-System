@@ -10,13 +10,11 @@
 
 body {
   font-family: "Montserrat", sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   min-height: 100vh;
   background: url('./Components/Assets/realistic-water-drop-with-ecosystem 1.png')
   no-repeat;
   background-size: cover;
   background-position: center;
+  overflow: hidden;
 }
 

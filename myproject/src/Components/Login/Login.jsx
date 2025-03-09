@@ -41,48 +41,50 @@ const Login = () => {
   };
 
   return (
-    <div className="Login-wrapper">
-      <div className="form-box login">
-        <form onSubmit={handleLogin}>
-          <h2>Login</h2>
-          <div className="input-box">
-            <input
-              type="text"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-            <FaUser className="icon" />
-          </div>
-          <div className="input-box">
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-            <CiLock className="icon" />
-          </div>
+    <div className="login-page-wrapper">
+      <div className="Login-wrapper">
+        <div className="form-box login">
+          <form onSubmit={handleLogin}>
+            <h2>Login</h2>
+            <div className="input-box">
+              <input
+                type="text"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              <FaUser className="icon" />
+            </div>
+            <div className="input-box">
+              <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <CiLock className="icon" />
+            </div>
 
-          <div className="remember-forgot">
-            <label>
-              <input type="checkbox" /> Remember me
-            </label>
-            <a href="#">Forgot password?</a>
-          </div>
+            <div className="remember-forgot">
+              <label>
+                <input type="checkbox" /> Remember me
+              </label>
+              <a href="#">Forgot password?</a>
+            </div>
 
-          <button type="submit">Login</button>
-          <div className="register-link">
-            <p>
-              Don't have an account?{" "}
-              <a href="#" onClick={() => navigate("/register")}>
-                Create Account
-              </a>
-            </p>
-          </div>
-        </form>
+            <button type="submit">Login</button>
+            <div className="register-link">
+              <p>
+                Don't have an account?{" "}
+                <a href="#" onClick={() => navigate("/register")}>
+                  Create Account
+                </a>
+              </p>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

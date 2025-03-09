@@ -1,13 +1,78 @@
-.Connection {
+
+  .main-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-  
-.table-container {
-    display: flex;
     justify-content: center;
-    background-color: brown;
-    align-items: center;
-    width: 100%;
+    margin-top: 25px;
   }
+
+
+
+/* 🎯 Button alignment with table */
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+/* 🖊️ Add Customer button */
+.add-button {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Space between icon & text */
+    background-color: #007bff;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
+
+.add-button:hover {
+    background-color: #0056b3;
+}
+
+/* 🎯 Add icon inside button */
+.add-icon {
+    font-size: 18px;
+}
+
+/* 📌 View Arrears button (aligns with table end) */
+.view-button {
+    background-color: #ff5722;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
+
+.view-button:hover {
+    background-color: #d84315;
+}
+
+/* 📱 Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .top-section {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .button-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .search-container {
+        width: 100%;
+    }
+}
+
+  
+
+

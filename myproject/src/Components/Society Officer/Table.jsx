@@ -59,8 +59,8 @@ export default function CustomizedTables() {
               <StyledTableCell component="th" scope="row">
                 {row.Name}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.Account_No}</StyledTableCell>
               <StyledTableCell align="right">{row.Address}</StyledTableCell>
+              <StyledTableCell align="right">{row.Account_No}</StyledTableCell>
               <StyledTableCell align="right">{row.Status}</StyledTableCell>
               <StyledTableCell align="right">{row.Action}</StyledTableCell>
             </StyledTableRow>
