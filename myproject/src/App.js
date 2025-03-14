@@ -8,7 +8,7 @@ import Register from './Components/Register/Register';
 import Login from './Components/Login/Login';
 import HomeContent from './Components/Society Officer/HomeContent';
 import Connection from './Components/Society Officer/Connection';
-import Header from './Components/Society Officer/Header';
+import Form from './Components/Society Officer/CustomerForm';
 
 const App = () => {
   return (
@@ -18,6 +18,7 @@ const App = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/HomeContent" element={<HomeContent />} />
       <Route path="/Connection" element={<Connection />} />
+      <Route path="/AddCustomer" element={<Form />} />
     </Routes>
   );
 };

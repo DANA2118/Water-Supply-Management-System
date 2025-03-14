@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import Search from "./Search";
@@ -7,6 +8,8 @@ import { IoMdAdd } from "react-icons/io";
 import "./Connection.css";
 
 const Connection = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="Connection">
       <Header />
@@ -23,8 +26,8 @@ const Connection = () => {
 
           {/* 🎯 Add & View Arrears Buttons aligned with table */}
           <div className="button-container">
-            <button className="add-button">
-              <IoMdAdd className="add-icon" />
+            <button className="add-button"  onClick={() => navigate("./Form")}>
+              <IoMdAdd className="add-icon"/>
               Add Customer
             </button>
             <button className="view-button">View Arrears</button>
