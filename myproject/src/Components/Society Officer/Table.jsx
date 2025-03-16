@@ -11,6 +11,8 @@ import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useNavigate } from "react-router-dom";
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -35,14 +37,14 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export default function CustomizedTables() {
   const [customers, setCustomers] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchCustomers();
   }, []);
 
   const fetchCustomers = () => {
-    const token = localStorage.getItem("token"); // Retrieve token from localStorage
-  
+    const token = localStorage.getItem("token");
     axios.get("http://localhost:8082/api/customer/get", {
       headers: {
         "Authorization": `Bearer ${token}`, // Attach token here
@@ -57,10 +59,20 @@ export default function CustomizedTables() {
     });
   };
   
+  const handleupdate = (accountNo) => {
+    navigate(`/update-customer/${accountNo}`);
+  }
 
   const handleDelete = (accountNo) => {
+    const token = localStorage.getItem("token");
     if (window.confirm("Are you sure you want to delete this customer?")) {
-      axios.delete(`http://localhost:8082/api/customer/delete/${accountNo}`)
+      axios.delete(`http://localhost:8082/api/customer/delete/${accountNo}`, {
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
+      }
+      )
         .then(() => {
           alert("Customer deleted successfully");
           setCustomers(customers.filter(customer => customer.accountNo !== accountNo));
@@ -74,12 +86,13 @@ export default function CustomizedTables() {
 
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 800 }} aria-label="customized table">
+      <Table sx={{ minWidth: 850 }} aria-label="customized table">
         <TableHead>
           <TableRow>
             <StyledTableCell>Name</StyledTableCell>
             <StyledTableCell align="center">Address</StyledTableCell>
             <StyledTableCell align="center">Account No</StyledTableCell>
+            <StyledTableCell align="center">Meter No</StyledTableCell>
             <StyledTableCell align="center">Status</StyledTableCell>
             <StyledTableCell align="center">Action</StyledTableCell>
           </TableRow>
@@ -92,9 +105,10 @@ export default function CustomizedTables() {
               </StyledTableCell>
               <StyledTableCell align="center">{customer.address}</StyledTableCell>
               <StyledTableCell align="center">{customer.accountNo}</StyledTableCell>
+              <StyledTableCell align="center">{customer.meterNo}</StyledTableCell>
               <StyledTableCell align="center">{customer.status}</StyledTableCell>
               <StyledTableCell align="center">
-                <IconButton color="primary">
+                <IconButton color="primary" onClick={() => handleupdate(customer.accountNo)}>
                   <EditIcon />
                 </IconButton>
                 <IconButton color="error" onClick={() => handleDelete(customer.accountNo)}>

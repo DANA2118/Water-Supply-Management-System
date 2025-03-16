@@ -26,7 +26,7 @@ const Connection = () => {
 
           {/* 🎯 Add & View Arrears Buttons aligned with table */}
           <div className="button-container">
-            <button className="add-button"  onClick={() => navigate("./Form")}>
+            <button className="add-button"  onClick={() => navigate("/AddCustomer")}>
               <IoMdAdd className="add-icon"/>
               Add Customer
             </button>
