@@ -15,10 +15,6 @@ const Connection = () => {
       <Header />
       <Sidebar />
       <div className="main-container">
-        <div className="main-title">
-          <h3>Customer List</h3>
-        </div>
-
         <div className="top-section">
           <div className="search-container">
             <Search />

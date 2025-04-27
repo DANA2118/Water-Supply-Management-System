@@ -1,15 +1,88 @@
-.header{
-    transition: all 0.5s;
-    z-index: 500;
-    height: 45px;
-    background: rgba(253, 252, 252, 0.292);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    backdrop-filter: blur(10px);
+
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 270px;
+  right: 0;
+  height: 60px;
+  background: #1d3140;
+  
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  z-index: 90;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.app-header.dark {
+  background: #1f2937;
+  border-color: #374151;
 }
 
 
-.header .toggle-sidebar-btn{
-    font-size:25px;
-    cursor: pointer;
-    color: rgb(6, 68, 68);
+.header-title {
+  flex: 1;                        
+  font-size: 1.5rem;              
+  font-weight: bold;
+  background: white; 
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; 
+}
+
+
+.app-header.dark .header-title {
+  color: #e5e7eb;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.action-icon {
+  font-size: 1.25rem;            
+  color: white;               
+  cursor: pointer;
+}
+
+
+.app-header.dark .action-icon {
+  color: #d1d5db;                 
+}
+
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  background: #07637c;            
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.user-text .user-name {
+  font-size: .875rem;
+  font-weight: 500;
+  color: white;
+}
+
+.user-text .user-role {
+  font-size: .75rem;
+  color: #c1c2c5;
+}
+
+/* lighter text in dark mode */
+.app-header.dark .user-text .user-name,
+.app-header.dark .user-text .user-role {
+  color: #e5e7eb;
 }

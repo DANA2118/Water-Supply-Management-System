@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Sidebar from "./Sidebar";
+import Header from "./Header";
 import "./AddCustomerForm.css"; 
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -55,13 +56,10 @@ const AddCustomerForm = () => {
 
   return (
     <div className="addCustomer">
+      <Header />
       <Sidebar />
-      <div className="form-container">
-        <div className="form-title">
-          <h3>Add Customer</h3>
-        </div>
+      <div className="add-form-container">
         <form className="customer-form" onSubmit={handleAddCustomer}>
-          {/* 🎯 Customer Name & Account Number */}
           <div className="row">
             <div className="input-box">
               <input type="text" placeholder="Customer Name" value={name} onChange={(e) => setCustomerName(e.target.value)} required />

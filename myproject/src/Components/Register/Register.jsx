@@ -41,6 +41,8 @@ const Register = () => {
     };
 
     return (
+        <>
+        <div className="auth-background" />
         <div className="register-page-wrapper">
             <div className="Register-wrapper">
                 <div className="form-box Register">
@@ -99,6 +101,7 @@ const Register = () => {
                 </div>
             </div>
         </div>
+        </>
     );
 };
 

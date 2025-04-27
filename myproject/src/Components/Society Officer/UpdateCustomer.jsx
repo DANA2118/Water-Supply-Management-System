@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "./Sidebar";
 import "./AddCustomerForm.css";
+import Header from "./Header";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate, useParams } from "react-router-dom";
@@ -61,11 +62,9 @@ const UpdateCustomer = () => {
 
     return (
         <div className="addCustomer">
+            <Header />
             <Sidebar />
-            <div className="form-container">
-                <div className="form-title">
-                    <h3>Update Customer</h3>
-                </div>
+            <div className="add-form-container">
                 <form onSubmit={handleUpdateCustomer} className="customer-form">
                     <div className="row">
                         <div className="input-box">

@@ -1,0 +1,192 @@
+/* ---------- LAYOUT ---------- */
+.billing-page {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+  }
+  .billing-content {
+    flex: 1;
+    padding: 24px;
+    margin-left: 270px;              /* sidebar width */
+    width: calc(100% - 270px);
+    overflow-y: auto;
+    background: #0f1624;
+    color: #f0f0f0;
+  }
+  .page-title {
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+  }
+  
+  /* ---------- CARDS ---------- */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px,1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+    justify-content: end;
+  }
+  .card {
+    display: flex;
+    background: #101c2d;
+    padding: 10px;
+    border-radius: 8px;
+    align-items: start;
+  }
+  .card-icon {
+    padding: 12px;
+    border-radius: 6px;
+  }
+  .card-icon--blue   { background: #3b82f6; color: white; }
+  .card-icon--green  { background: #10b981; color: white; }
+  .card-icon--yellow { background: #facc15; color: #333; }
+  .card-label  { font-size: 0.875rem; color: #a0a0a0; }
+  .card-value  { font-size: 1.75rem; font-weight: bold; margin: 4px 0; }
+  .card-note   { font-size: 0.875rem; }
+  .card-note--green { color: #10b981; }
+  
+  /* ---------- CONTROLS ---------- */
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .search-box, .filter-box {
+    position: relative;
+    flex: 1 1 240px;
+    max-width: 300px;
+  }
+  .icon-inline {
+    position: absolute;
+    left: 8px;
+    top: 38%;
+    transform: translateY(-50%);
+    color: #888;
+  }
+
+  .search-input,
+  .filter-select {
+    width: 100%;
+    padding: 8px 8px 8px 32px;
+    background: #1e2a3a;
+    border: 1px solid #445;
+    border-radius: 6px;
+    color: #f0f0f0;
+  }
+  .filters {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    cursor: pointer;
+    border: none;
+  }
+  .btn-icon { margin-right: 4px; }
+  .btn--primary {
+    background: #3b82f6;
+    color: white;
+  }
+  .btn--outline {
+    background: none;
+    border: 1px solid #3b82f6;
+    color: #3b82f6;
+  }
+  
+  /* ---------- TABLE ---------- */
+  .table-container {
+    overflow-x: auto;
+    margin-bottom: 16px;
+    max-width: 1200px;
+    padding: 0 16px;
+  }
+  .billing-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 12px;
+  }
+  .billing-table th,
+  .billing-table td {
+    padding: 14px 40px;
+    text-align: left;
+  }
+  .billing-table th {
+    background: #10162a;
+    font-size: 0.75rem;
+    color: #bbb;
+    text-transform: uppercase;
+  }
+  .billing-table tbody tr {
+    background: #0f1624;
+  }
+  .billing-table tbody tr:hover {
+    background: #1a2435;
+  }
+  .td-bold { font-weight: bold; }
+  .meter { font-size: 0.75rem; color: #777; }
+  .badge {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+  }
+  .badge--green  { background: rgba(16,185,129,0.15);  color: #10b981; }
+  .badge--yellow { background: rgba(250,204,21,0.15);  color: #facc15; }
+  .badge--red    { background: rgba(239,68,68,0.15);   color: #ef4444; }
+  .badge--gray   { background: rgba(100,100,100,0.15); color: #aaa; }
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+  }
+  .action-icon {
+    cursor: pointer;
+  }
+  .action-icon--blue   { color: #3b82f6; }
+  .action-icon--green  { color: #10b981; }
+  .action-icon--purple { color: #8b5cf6; }
+  
+  /* ---------- PAGINATION ---------- */
+  .pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.875rem;
+  }
+  .page-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn--sm {
+    padding: 4px 8px;
+    font-size: 0.75rem;
+  }
+  .page-number {
+    background: #1e2a3a;
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+
+  @media (max-width: 768px) {
+    .billing-content {
+      margin-left: 0;               /* stack under sidebar on small screens */
+      width: 100%;
+    }
+    .cards {
+      justify-content: center;      /* center cards on mobile */
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    }
+    .card {
+      max-width: none;
+    }
+  }
+  

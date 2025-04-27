@@ -23,7 +23,6 @@ const ChartComponent = () => {
 
   return (
     <div className="chart-container">
-      <h3>Revenue vs Cost</h3>
       <Bar data={data} />
     </div>
   );
