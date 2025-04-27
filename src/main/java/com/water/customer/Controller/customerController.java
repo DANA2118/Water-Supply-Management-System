@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RequestMapping("/api/customer")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class customerController {
 
@@ -41,5 +41,15 @@ public class customerController {
     @DeleteMapping("/delete/{AccountNo}")
     public ResponseEntity<ResponseDTO> deleteCustomer(@PathVariable int AccountNo) {
         return cService.deleteCustomer(AccountNo);
+    }
+
+    @GetMapping("/total")
+    public long getTotalCustomers() {
+        return cService.getTotalCustomers();
+    }
+
+    @GetMapping("/active")
+    public long countActiveCustomers() {
+        return cService.countActiveCustomers();
     }
 }

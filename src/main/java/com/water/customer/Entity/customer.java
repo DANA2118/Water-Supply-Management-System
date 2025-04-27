@@ -2,13 +2,11 @@ package com.water.customer.Entity;
 
 
 import jakarta.persistence.*;
-import jdk.jshell.Snippet;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.boot.autoconfigure.web.WebProperties;
 
 import java.util.Date;
 
@@ -53,5 +51,8 @@ public class customer {
         Residential,
         Commercial
     }
+
+
+
 
 }

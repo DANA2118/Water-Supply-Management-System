@@ -138,4 +138,13 @@ public class customerServiceimpl implements customerService {
                 .build());
     }
 
+    @Override
+    public int getTotalCustomers() {
+        return (int) cRepo.getTotalCustomers();
+    }
+
+    @Override
+    public int countActiveCustomers() {
+        return (int) cRepo.countActiveCustomers();
+    }
 }

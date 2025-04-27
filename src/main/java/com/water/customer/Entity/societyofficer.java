@@ -22,7 +22,7 @@ public class societyofficer {
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
     private user user;
-    
+
 }
 
 

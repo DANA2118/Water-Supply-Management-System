@@ -12,4 +12,6 @@ public interface customerService {
     ResponseEntity<ResponseDTO> findCustomer(int AccountNo);
     ResponseEntity<ResponseDTO> deleteCustomer(int AccountNo);
     ResponseEntity<ResponseDTO> updateCustomer(int accountNo, customerDTO cDTO);
+    int getTotalCustomers();
+    int countActiveCustomers();
 }
