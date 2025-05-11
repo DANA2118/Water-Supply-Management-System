@@ -6,6 +6,8 @@ import axios from "axios";
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
 import "./voucher.css";
 
 const PaymentVoucher = () => {
@@ -41,6 +43,14 @@ const PaymentVoucher = () => {
     const lines = voucher.des.filter((_, idx) => idx !== i);
     setVoucher({ ...voucher, des: lines });
   };
+
+  const COMMON_COSTS = [
+    "Salary",
+    "Chlorine",
+    "Pipelines",
+    "Electricity"
+  ];
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -107,14 +117,29 @@ const PaymentVoucher = () => {
             <div className="row line-row" key={idx}>
               <div className="voucher-input-box">
                 <label>Description</label>
-                <input
-                  type="text"
-                  placeholder="Description"
+                <Autocomplete
+                  freeSolo
+                  options={COMMON_COSTS}
                   value={line.description}
-                  onChange={(e) =>
-                    handleLineChange(idx, "description", e.target.value)
-                  }
-                  required
+                  onInputChange={(_, newInputValue) => handleLineChange(idx, "description", newInputValue)}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      placeholder="Description"
+                      variant="outlined"
+                      size="small"
+                      required
+                      sx={{
+                        background: "#1e2a33",
+                        borderRadius: "5px",
+                        input: { color: "#fff" },
+                        "& .MuiOutlinedInput-root": {
+                          "& fieldset": { borderColor: "#444" }
+                        },
+                        "& .MuiInputLabel-root": { color: "#fff" }
+                      }}
+                    />
+                  )}
                 />
               </div>
               <div className="voucher-input-box">

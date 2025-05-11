@@ -1,123 +1,218 @@
 .HomeContent {
-    display: flex;
-    min-height: 100vh;
-    align-self: flex-start;
-  }
-  
-  .main-container {
-    flex: 1;
-    margin-top: 100px;   /* push below header */
-    margin-left: 250px; /* push aside sidebar */
-    padding: 20px;
-    overflow-y: auto;
-  }
-  
-  /* ─── CARDS ─── */
+  display: flex;
+  min-height: 100vh;
+  align-self: flex-start;
+}
+
+.main-container {
+  flex: 1;
+  margin-top: 100px;   
+  margin-left: 250px; 
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.main-cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(270px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.card {
+  background: #101c24;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 150px;
+}
+
+.card-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card h3 {
+  font-size: 1rem;
+  margin: 0;
+  color: #ffffff;
+}
+
+.card h1 {
+  color: #ffffff;
+}
+
+.card-value {
+  font-size: 1.75rem;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.card-footnote {
+  font-size: 0.875rem;
+}
+
+.icon {
+  font-size: 1.5rem;
+}
+.icon.blue   { color: #3b82f6; }  
+.icon.green  { color: #10b981; }  
+.icon.yellow { color: #facc15; }  
+.icon.purple { color: #8b5cf6; }  
+
+
+.chart-and-complaints {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.chart {
+  background: #101c24;
+  padding: 30px;
+  border-radius: 8px;
+  height: 450px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-title {
+  font-size: 1.25rem;
+  color: #ffffff;
+  margin-bottom: 12px;
+}
+
+.chart-container {
+  flex: 1;
+  position: relative;
+}
+
+.complaints {
+  background: #101c24;
+  padding: 40px;
+  border-radius: 8px;
+  color: #ffffff;
+  height: 450px; 
+  overflow-y: auto; 
+}
+
+.complaints h3 {
+  margin-bottom: 10px;
+  color: red;
+  font-size: 1.125rem;
+}
+
+.complaints ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.complaints li {
+  margin-bottom: 8px;
+  font-size: 0.875rem;
+  padding: 8px;
+  border-bottom: 1px solid #1e2a33;
+}
+
+.complaints li strong {
+  color: #10b981;
+  margin-right: 5px;
+}
+
+/* Complaint section styling */
+.complaints-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.complaint-item {
+  background-color: #1a2730;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+.complaint-header {
+  padding: 12px 15px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.2s;
+}
+
+.complaint-header:hover {
+  background-color: #1e2e3a;
+}
+
+.complaint-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.complaint-date {
+  font-size: 0.75rem;
+  color: #10b981;
+  font-weight: bold;
+}
+
+.complaint-subject {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #e2e8f0;
+}
+
+.complaint-account {
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.complaint-description {
+  padding: 12px 15px;
+  background-color: #152029;
+  font-size: 0.85rem;
+  color: #cbd5e1;
+  border-top: 1px solid #1e2a33;
+  line-height: 1.5;
+}
+
+.expand-icon {
+  font-size: 1.25rem;
+  color: #64748b;
+}
+
+.no-complaints {
+  color: #94a3b8;
+  font-style: italic;
+  text-align: center;
+  padding: 20px 0;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
   .main-cards {
-    display: grid;
-     grid-template-columns: repeat(4, minmax(270px, 1fr));
-    gap: 30px;
-    margin-top: 40px;
+    grid-template-columns: repeat(2, 1fr);
   }
-  
-  .card {
-    background: #101c24;
-    border-radius: 8px;
-    padding: 20px;
-    display: flex;
+}
 
-    flex-direction: column;
-    justify-content: space-between;
-    /* FIXED HEIGHT so changing h3 size won’t collapse it */
-    min-height: 150px;
+@media (max-width: 768px) {
+  .main-container {
+    margin-left: 0;
   }
   
-  .card-inner {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  /* Label (<h3>) can now be sized independently */
-  .card h3 {
-    font-size: 1rem;
-    margin: 0;
-    color: #ffffff;
-  }
-
-  .card h1 {
-    color: #ffffff;
-  }
-  
-  /* Big numeric value */
-  .card-value {
-    font-size: 1.75rem;
-    color: #ffffff;
-    font-weight: bold;
-  }
-  
-  /* Small footnote under value (e.g. +7.5%) */
-  .card-footnote {
-    font-size: 0.875rem;
-  }
-  
-  /* ICON COLORS */
-  .icon {
-    font-size: 1.5rem;
-  }
-  .icon.blue   { color: #3b82f6; }  /* tailwind's blue-500 */
-  .icon.green  { color: #10b981; }  /* green-500 */
-  .icon.yellow { color: #facc15; }  /* yellow-400 */
-  .icon.purple { color: #8b5cf6; }  /* purple-500 */
-  
-  /* ─── CHART + COMPLAINTS LAYOUT ─── */
   .chart-and-complaints {
-    display: flex;
-    flex-wrap: wrap;
-    margin-left: 20px;
-    margin-top: 40px;
-    gap: 10px;
+    grid-template-columns: 1fr;
   }
   
-  /* Chart box */
-  .chart {
-    flex: 2 1 400px;     /* grow:3, shrink:1, base:400px */
-    min-width: 300px;
-    background: #101c24;
-    padding: 30px;
-    border-radius: 8px;
+  .main-cards {
+    grid-template-columns: 1fr;
   }
-  
-  /* Chart title */
-  .chart-title {
-    font-size: 1.25rem;
-    color: #ffffff;
-    margin-bottom: 12px;
-  }
-  
-  /* Complaints sidebar */
-  .complaints {
-    flex: 2 1 300px;     /* grow:2, shrink:1, base:300px */
-    min-width: 250px;
-    background: #101c24;
-    padding: 30px;
-    border-radius: 8px;
-    color: #ffffff;
-  }
-  
-  .complaints h3 {
-    margin-bottom: 12px;
-    font-size: 1.125rem;
-  }
-  
-  .complaints ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .complaints li {
-    margin-bottom: 8px;
-    font-size: 0.875rem;
-  }
-  
+}

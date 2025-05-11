@@ -16,7 +16,10 @@ import AddCustomerForm from './Components/Society Officer/CustomerForm';
 import UpdateCustomer  from './Components/Society Officer/UpdateCustomer';
 import Invoice        from './Components/Society Officer/Invoice';
 import BillForm        from './Components/Society Officer/BillForm';
+import Cost           from './Components/Society Officer/Cost';
 import Paymentvoucher from './Components/Society Officer/paymentvoucher';
+import PaymentForm   from './Components/Society Officer/Paymentform';
+import Reports  from './Components/Society Officer/Reports';
 
 
 const App = () => {
@@ -37,7 +40,10 @@ const App = () => {
         <Route path="/update-customer/:accountNo" element={<UpdateCustomer />} />
         <Route path="/invoice"            element={<Invoice />} />
         <Route path="/bill"              element={<BillForm />} />
+        <Route path="/paymentform"       element={<PaymentForm />} />
+        <Route path="/cost"              element={<Cost />} />
         <Route path='/paymentvoucher' element={<Paymentvoucher/>}/>
+        <Route path='/reports' element={<Reports/>}/>
       </Routes>
     </div>
   );

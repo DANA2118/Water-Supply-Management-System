@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
-import { BiCollection, BiTrendingUp} from 'react-icons/bi';
+import { BiCollection, BiTrendingUp, BiChevronUp, BiChevronDown} from 'react-icons/bi';
 import ChartComponent from "./Chart";
 import "./HomeContent.css";
 import Header from "./Header";
@@ -9,12 +9,8 @@ import axios from "axios";
 const HomeContent = () => {
   const [totalCustomers, setTotalCustomers] = useState(0);
   const [activeCustomers, setActiveCustomers] = useState(0);
-  const [complaints, setComplaints] = useState([
-    // example static data—you’d fetch this from your API
-    { id: 1, date: "2025-04-16", text: "Leaky meter reported" },
-    { id: 2, date: "2025-04-15", text: "Wrong billing amount" },
-    { id: 3, date: "2025-04-14", text: "No water supply" },
-  ]);
+  const [complaints, setComplaints] = useState([0]);
+  const [expandedComplaint, setExpandedComplaint] = useState(null);
 
   useEffect(() => {
     const fetchTotalCustomers = async () => {
@@ -70,6 +66,42 @@ const HomeContent = () => {
     fetchActiveCustomers();
   }, []);
 
+  useEffect(() => {
+    const fetchComplaints = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("No token found. User might not be authenticated.");
+        return;
+      }
+    
+      try {
+        const response = await axios.get("http://localhost:8082/api/complaint/all", {
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+          }
+        });
+        setComplaints(response.data || []);
+      } catch (error) {
+        console.error("Error fetching complaints:", error);
+      }
+    };
+    fetchComplaints();
+  }, []);
+
+  const toggleComplaint = (complaintId) => {
+    if (expandedComplaint === complaintId) {
+      setExpandedComplaint(null);
+    } else {
+      setExpandedComplaint(complaintId);
+    }
+  }
+
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  }
+
   return (
     <div className="HomeContent">
       <Header />
@@ -112,16 +144,39 @@ const HomeContent = () => {
             <ChartComponent />
           </div>
 
-          {/* NEW Complaints pane */}
           <aside className="complaints">
             <h3>Recent Complaints</h3>
-            <ul>
-              {complaints.map(c => (
-                <li key={c.id}>
-                  <strong>{c.date}</strong>: {c.text}
-                </li>
-              ))}
-            </ul>
+            {complaints.length === 0 ? (
+              <p className="no-complaints">No recent complaints</p>
+            ) : (
+              <ul className="complaints-list">
+                {complaints.map(complaint => (
+                  <li key={complaint.complaintId} className="complaint-item">
+                    <div 
+                      className="complaint-header" 
+                      onClick={() => toggleComplaint(complaint.complaintId)}
+                    >
+                      <div className="complaint-summary">
+                        <div className="complaint-date">{formatDate(complaint.date)}</div>
+                        <div className="complaint-subject">
+                          {complaint.subject || "No Subject"}
+                        </div>
+                        <div className="complaint-account">Account: {complaint.accountNo}</div>
+                      </div>
+                      {expandedComplaint === complaint.complaintId ? 
+                        <BiChevronUp className="expand-icon" /> : 
+                        <BiChevronDown className="expand-icon" />
+                      }
+                    </div>
+                    {expandedComplaint === complaint.complaintId && (
+                      <div className="complaint-description">
+                        {complaint.description}
+                      </div>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
           </aside>
         </div>
       </main>

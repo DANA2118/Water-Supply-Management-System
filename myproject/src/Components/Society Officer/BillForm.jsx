@@ -124,8 +124,24 @@ const BillForm = () => {
               navigate("/HomeContent");
             });
     } catch (error) {
-      console.error("Error generating invoice:", error);
-      alert("Failed to generate invoice");
+      if (error.response?.status === 400  && error.response.data?.data)
+        Swal.fire({
+          title: "Validation Error",
+          text: error.response.data.data,
+          icon: "warning",
+  })
+      else if (error.response?.status === 500)
+        Swal.fire({
+          title: "Server Error",
+          text: "An error occurred on the server. Please try again later.",
+          icon: "error",
+        })
+      else
+        Swal.fire({
+          title: "Error",
+          text: "An unexpected error occurred. Please try again.",
+          icon: "error",
+        });
     }
   };
 
@@ -165,7 +181,7 @@ const BillForm = () => {
                 type="number"
                 name="previousReading"
                 value={formData.previousReading}
-                readOnly
+                required
               />
             </div>
             <div className="input-box">

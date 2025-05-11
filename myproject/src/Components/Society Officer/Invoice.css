@@ -44,6 +44,8 @@
   .card-value  { font-size: 1.75rem; font-weight: bold; margin: 4px 0; }
   .card-note   { font-size: 0.875rem; }
   .card-note--green { color: #10b981; }
+  .card-note--blue { color: #3b82f6; }
+  .card-note--yellow { color: #facc15; }
   
   /* ---------- CONTROLS ---------- */
   .controls {

@@ -1,13 +1,14 @@
 import React from 'react'
 import './Sidebar.css'
-import { BiHome, BiCollection, BiReceipt, BiCalendar, BiAbacus } from 'react-icons/bi'
+import { BiHome, BiCollection, BiReceipt, BiCalendar, BiAbacus, BiChart } from 'react-icons/bi'
 import { FaTint } from 'react-icons/fa'
 
 const navItems = [
   { icon: <BiHome />,    label: 'Dashboard',             href: '/HomeContent' },
   { icon: <BiCollection />, label: 'Connections',         href: '/Connection' },
   { icon: <BiReceipt />, label: 'Invoices',         href: '/invoice'       },
-  { icon: <BiAbacus />,  label: 'Payment Voucher',               href: '/paymentvoucher'    },
+  { icon: <BiAbacus />,  label: 'Payment Voucher',               href: '/cost'    },
+  { icon: <BiChart />,      label: 'Reports',               href: '/reports' },
   { icon: <BiCalendar />, label: 'Certificate Scheduling', href: '/certificate' },
 ]
 

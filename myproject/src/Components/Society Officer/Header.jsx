@@ -11,6 +11,10 @@ const TITLE_MAP = {
   '/certificate':  'Certificate Scheduling',
   '/AddCustomer':  'Add Customer',
   '/update-customer': 'Update Customer',
+  '/invoice': 'Invoices',
+  '/cost': 'Payment Vouchers',
+  '/reports': 'Reports',
+  '/paymentform': 'Payment Form',
 
   // add more routes ↴
 };
