@@ -34,8 +34,9 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(request->request.requestMatchers("/auth/**", "/public/**").permitAll()
-                        .requestMatchers("/officer/**","/api/invoice/**","/api/paymentvoucher/**","/api/arrears**").hasAnyAuthority("SOCIETY_OFFICER")
+                        .requestMatchers("/officer/**","/api/invoice/**","/api/paymentvoucher/**","/api/arrears**","api/complaint/all","api/payments/cash","/api/revenue/**", "/api/tariff/**", "/api/costreport/**").hasAnyAuthority("SOCIETY_OFFICER")
                         .requestMatchers("/customer/**").hasAnyAuthority("CUSTOMER","SOCIETY_OFFICER")
+                        .requestMatchers("/api/v1/customer/**", "api/complaint/save","api/payments/create","api/payments/confirm").hasAnyAuthority("CUSTOMER")
                         .anyRequest().authenticated())
                 .sessionManagement(manager->manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(

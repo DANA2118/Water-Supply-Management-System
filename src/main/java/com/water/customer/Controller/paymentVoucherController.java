@@ -1,6 +1,7 @@
 package com.water.customer.Controller;
 
 
+import com.water.customer.DTO.MonthlyVoucherReportDTO;
 import com.water.customer.DTO.paymentVoucherDTO;
 import com.water.customer.DTO.voucherAggregateDTO;
 import com.water.customer.DTO.voucherDTO;
@@ -57,6 +58,24 @@ public class paymentVoucherController {
         }
     }
 
+    @GetMapping("/report/monthly")
+    public ResponseEntity<MonthlyVoucherReportDTO> getMonthlyReport(
+            @RequestParam int month,
+            @RequestParam int year
+    ) {
+        MonthlyVoucherReportDTO dto = voucherService.monthlyReport(month, year);
+        return ResponseEntity.ok(dto);
+    }
+
+
+    @GetMapping("/report/yearly")
+    public ResponseEntity<MonthlyVoucherReportDTO> getYearlyReport(
+            @RequestParam int year
+    ) {
+        MonthlyVoucherReportDTO dto = voucherService.yearlyReport(year);
+        return ResponseEntity.ok(dto);
+    }
+
     @GetMapping("/yearly")
     public ResponseEntity<voucherAggregateDTO> getYearlyTotal(
             @RequestParam int year) {
@@ -68,6 +87,25 @@ public class paymentVoucherController {
                     .status(500)
                     .body(new voucherAggregateDTO("", 0.0));
         }
+    }
+
+    @GetMapping("/description/monthly")
+    public ResponseEntity<MonthlyVoucherReportDTO> getMonthlyReportByDescription(
+            @RequestParam int month,
+            @RequestParam int year,
+            @RequestParam String description
+    ) {
+        MonthlyVoucherReportDTO dto = voucherService.monthlyReportByDescription(month, year, description);
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/description/yearly")
+    public ResponseEntity<MonthlyVoucherReportDTO> getYearlyReportByDescription(
+            @RequestParam int year,
+            @RequestParam String description
+    ) {
+        MonthlyVoucherReportDTO dto = voucherService.yearlyReportByDescription(year, description);
+        return ResponseEntity.ok(dto);
     }
 
 }

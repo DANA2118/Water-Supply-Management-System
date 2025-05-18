@@ -99,23 +99,15 @@ public class UsermanagementService {
             }
 
             user loggedInUser = optionalUser.get();
-            var jwt = jwtUtils.generateToken(loggedInUser);
-            var refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), loggedInUser);
 
-            loginResponse.setStatusCode(200);
-            loginResponse.setToken(jwt);
-            loginResponse.setRefreshToken(refreshToken);
-            loginResponse.setMessage("Login successful");
-            loginResponse.setExpirationTime("24Hrs");
-            loginResponse.setRole(loggedInUser.getRole().name());
-
-            // Fetch Customer or Society Officer Details
+            Integer accountNo = null;
             if (loggedInUser.getRole() == com.water.customer.Entity.user.Role.CUSTOMER) {
                 Optional<usercustomer> customerOpt = Optional.ofNullable(usercustomerRepo.findByUser(loggedInUser));
                 if (customerOpt.isPresent()) {
+                    accountNo = customerOpt.get().getAccountNo();
                     usercustomer customer = customerOpt.get();
                     loginResponse.setUsername(customer.getUsername());
-                    loginResponse.setAccountNo(customer.getAccountNo()); // Set Account Number for Customers
+                    loginResponse.setAccountNo(accountNo); // Set Account Number for Customers
                 }
             } else if (loggedInUser.getRole() == com.water.customer.Entity.user.Role.SOCIETY_OFFICER) {
                 Optional<societyofficer> officerOpt = Optional.ofNullable(societyofficerRepo.findByUser(loggedInUser));
@@ -124,6 +116,16 @@ public class UsermanagementService {
                     loginResponse.setUsername(officer.getUsername()); // Set Username for Society Officers
                 }
             }
+
+            var jwt = jwtUtils.generateToken(loggedInUser,accountNo);
+            var refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), loggedInUser);
+
+            loginResponse.setStatusCode(200);
+            loginResponse.setToken(jwt);
+            loginResponse.setRefreshToken(refreshToken);
+            loginResponse.setMessage("Login successful");
+            loginResponse.setExpirationTime("24Hrs");
+            loginResponse.setRole(loggedInUser.getRole().name());
 
         } catch (Exception e) {
             loginResponse.setStatusCode(500);

@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AerearsDTO {
+    private int invoiceId;
     private int accountNo;
     private String name;
     private String telephoneNo;

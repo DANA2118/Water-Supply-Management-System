@@ -1,14 +1,13 @@
 package com.water.customer.Service;
 
 
-import com.water.customer.DTO.voucherAggregateDTO;
-import com.water.customer.DTO.voucherDTO;
-import com.water.customer.DTO.voucherdesDTO;
+import com.water.customer.DTO.*;
 import com.water.customer.Entity.paymentVoucher;
 import com.water.customer.Entity.paymentvoucherdes;
 import com.water.customer.Entity.societyofficer;
 import com.water.customer.Entity.user;
 import com.water.customer.Repository.paymentVoucherRepository;
+import com.water.customer.Repository.paymentvoucherdesRepository;
 import com.water.customer.Repository.societyofficerRepository;
 import com.water.customer.Repository.userRepository;
 import jakarta.transaction.Transactional;
@@ -17,11 +16,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class paymentVoucherService {
     @Autowired
     private paymentVoucherRepository voucherrepo;
+
+    @Autowired
+    private paymentvoucherdesRepository voucherdesrepo;
 
     @Autowired
     private societyofficerRepository officerrepo;
@@ -65,10 +69,66 @@ public class paymentVoucherService {
         return voucherrepo.findAll();
     }
 
+    public MonthlyVoucherReportDTO monthlyReport(int month, int year) {
+        // 1) fetch all vouchers this period
+        List<paymentVoucher> vouchers = voucherrepo.findAllByMonthYear(month, year);
+
+        // 2) map to summary DTOs
+        List<PaymentVoucherSummaryDTO> list = vouchers.stream().map(v -> {
+            List<LineItemDTO> items = v.getDes().stream()
+                    .map(d -> new LineItemDTO(d.getId(), d.getDescription(), d.getCost()))
+                    .toList();
+
+            return new PaymentVoucherSummaryDTO(
+                    v.getVoucherId(),
+                    v.getPayee(),
+                    v.getVoucherDate(),
+                    v.getTotalcost(),
+                    items
+            );
+        }).toList();
+
+        // 3) total cost (reuse existing)
+        double total = voucherrepo.findMonthlyTotal(month, year);
+
+        // 4) period string
+        String period = String.format("%04d-%02d", year, month);
+
+        return new MonthlyVoucherReportDTO(period, total, list);
+    }
+
+    public MonthlyVoucherReportDTO yearlyReport(int year) {
+        // year‐wide
+        // you could add a findAllByYear query similar to above, or just reuse findAll()
+        List<paymentVoucher> vouchers = voucherrepo.findAll().stream()
+                .filter(v -> v.getVoucherDate().getYear() == year)
+                .toList();
+
+        List<PaymentVoucherSummaryDTO> list = vouchers.stream().map(v -> {
+            List<LineItemDTO> items = v.getDes().stream()
+                    .map(d -> new LineItemDTO(d.getId(), d.getDescription(), d.getCost()))
+                    .toList();
+
+            return new PaymentVoucherSummaryDTO(
+                    v.getVoucherId(),
+                    v.getPayee(),
+                    v.getVoucherDate(),
+                    v.getTotalcost(),
+                    items
+            );
+        }).toList();
+
+        double total = voucherrepo.findYearlyTotal(year);
+        String period = String.valueOf(year);
+
+        return new MonthlyVoucherReportDTO(period, total, list);
+    }
+
+
     public voucherAggregateDTO monthlycost(int month, int year)
     {
         double monthlyTotal = voucherrepo.findMonthlyTotal(month, year);
-        String period = String.format("%02d-%02d", month, year);
+        String period = String.format("%04d-%02d", month, year);
         return new voucherAggregateDTO(period, monthlyTotal);
 
     }
@@ -79,5 +139,75 @@ public class paymentVoucherService {
         String period = String.valueOf(year);
         return new voucherAggregateDTO(period, yearlyTotal);
     }
+
+    @Transactional
+    public MonthlyVoucherReportDTO monthlyReportByDescription(
+            int month, int year, String description) {
+
+        List<paymentvoucherdes> lineItems =
+                voucherdesrepo.findByDescriptionAndMonthYear(description, year, month);
+
+        Map<Integer, List<paymentvoucherdes>> itemsByVoucherId = lineItems.stream().collect(Collectors.groupingBy(d -> d.getVoucher().getVoucherId()));
+
+        List<PaymentVoucherSummaryDTO> summaries = itemsByVoucherId.entrySet().stream()
+                .map(entry -> {
+                    int vid = entry.getKey();
+                    List<paymentvoucherdes> items = entry.getValue();
+                    paymentVoucher v = items.get(0).getVoucher();
+
+                    List<LineItemDTO> dtoItems = items.stream()
+                            .map(d -> new LineItemDTO(d.getId(), d.getDescription(), d.getCost()))
+                            .toList();
+
+                    return new PaymentVoucherSummaryDTO(
+                            v.getVoucherId(),
+                            v.getPayee(),
+                            v.getVoucherDate(),
+                            v.getTotalcost(),
+                            dtoItems
+                    );
+                })
+                .toList();
+
+        double total = lineItems.stream().mapToDouble(d -> d.getCost()).sum();
+
+        String period = String.format("%04d-%02d", year, month);
+        return new MonthlyVoucherReportDTO(period, total, summaries);
+    }
+
+    @Transactional
+    public MonthlyVoucherReportDTO yearlyReportByDescription(
+            int year, String description) {
+
+        List<paymentvoucherdes> lineItems =
+                voucherdesrepo.findByDescriptionAndYear(description, year);
+
+        Map<Integer, List<paymentvoucherdes>> itemsByVoucherId =
+                lineItems.stream()
+                        .collect(Collectors.groupingBy(d -> d.getVoucher().getVoucherId()));
+
+        List<PaymentVoucherSummaryDTO> summaries = itemsByVoucherId.entrySet().stream()
+                .map(entry -> {
+                    List<paymentvoucherdes> items = entry.getValue();
+                    paymentVoucher v = items.get(0).getVoucher();
+                    List<LineItemDTO> dtoItems = items.stream()
+                            .map(d -> new LineItemDTO(d.getId(), d.getDescription(), d.getCost()))
+                            .toList();
+
+                    return new PaymentVoucherSummaryDTO(
+                            v.getVoucherId(),
+                            v.getPayee(),
+                            v.getVoucherDate(),
+                            v.getTotalcost(),
+                            dtoItems
+                    );
+                })
+                .toList();
+
+        double total = lineItems.stream().mapToDouble(d -> d.getCost()).sum();
+        String period = String.valueOf(year);
+        return new MonthlyVoucherReportDTO(period, total, summaries);
+    }
+
 
 }
