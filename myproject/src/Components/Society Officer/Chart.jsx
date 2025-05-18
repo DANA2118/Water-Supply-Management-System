@@ -25,12 +25,21 @@ const ChartComponent = () => {
             }
           }
          );
+        const costresponse = await axios.get(`http://localhost:8082/api/costreport/monthlycost?year=${currentYear}`,
+          {
+            headers: {
+              "Authorization" : `Bearer ${token}`,
+              "Content-Type" : "application/json"
+            }
+          }
+          );
 
          const monthlyRevenue = response.data;
+         const monthlyCost = costresponse.data;
          const labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
          const revennueData = monthlyRevenue.map(item=> item.revenue);
-
-         const costData = [70000, 50000, 45000, 85000, 5000, 60000, 75000, 20000, 100000, 20000, 30000, 40000];
+         const costData = monthlyCost.map(item=> item.cost);
+         
          setChartData({
           labels: labels,
           datasets: [
@@ -65,5 +74,4 @@ const ChartComponent = () => {
     </div>
   );
 };
-//data: [70000, 50000, 45000, 85000, 5000, 60000, 75000, 20000, 100000, 20000]
 export default ChartComponent;

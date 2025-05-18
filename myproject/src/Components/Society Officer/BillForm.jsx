@@ -15,13 +15,15 @@ const BillForm = () => {
     officerId: '',
     presentReading: '',
     readingId: '',
-    fixedAmount: 500.0, // fixed amount is constant
+    fixedAmount: '', 
     additionalCharges: 0,
     otherCharges: 0,
     totalamount: 0,
     balanceforpay: 0,
   });
   const [error, setError] = useState('')
+
+  const [isPreviousReadingEditable, setIsPreviousReadingEditable] = useState(false);
 
   // Called when account number field loses focus
   const handleAccountBlur = async () => {
@@ -37,18 +39,25 @@ const BillForm = () => {
       setFormData(prev => ({
         ...prev,
         name: response.data.name,
-        previousReading: response.data.previousReading
+        previousReading: response.data.previousReading,
+        fixedAmount: response.data.FixedCharge
       }));
+
+      setIsPreviousReadingEditable(
+        response.data.previousReading === 0 ||
+        response.data.previousReading === null ||
+        response.data.previousReading === ''
+      );
     } catch (error) {
       console.error("Error fetching customer details:", error);
     }
   };
 
-  useEffect(()=> {
+  useEffect(() => {
     if (formData.previousReading === null) return
     if (formData.presentReading === '') {
       setError('')
-    }else if (parseInt(formData.presentReading,10) < parseInt(formData.previousReading,10)) {
+    } else if (parseInt(formData.presentReading, 10) < parseInt(formData.previousReading, 10)) {
       setError(`Present reading should be greater than ${formData.previousReading}`)
     } else {
       setError('')
@@ -116,20 +125,20 @@ const BillForm = () => {
         }
       );
       Swal.fire({
-              title: "Success!",
-              text: "Invoice generated successfully!",
-              icon: "success",
-              confirmButtonText: "Ok",
-            }).then(() => {
-              navigate("/HomeContent");
-            });
+        title: "Success!",
+        text: "Invoice generated successfully!",
+        icon: "success",
+        confirmButtonText: "Ok",
+      }).then(() => {
+        navigate("/HomeContent");
+      });
     } catch (error) {
-      if (error.response?.status === 400  && error.response.data?.data)
+      if (error.response?.status === 400 && error.response.data?.data)
         Swal.fire({
           title: "Validation Error",
           text: error.response.data.data,
           icon: "warning",
-  })
+        })
       else if (error.response?.status === 500)
         Swal.fire({
           title: "Server Error",
@@ -152,7 +161,7 @@ const BillForm = () => {
       <div className="form-container">
         <form className="Bill-form" onSubmit={handleSubmit}>
           <div className="row">
-            
+
             <div className="input-box">
               <label>Account No:</label>
               <input
@@ -181,8 +190,19 @@ const BillForm = () => {
                 type="number"
                 name="previousReading"
                 value={formData.previousReading}
+                onChange={e =>
+                  setFormData(prev => ({
+                    ...prev,
+                    previousReading: e.target.value
+                  }))
+                }
+                readOnly={!isPreviousReadingEditable}
+                placeholder="Enter previous reading"
                 required
               />
+              {isPreviousReadingEditable && (
+                <small className="helper-text">No previous reading found. Please enter manually.</small>
+              )}
             </div>
             <div className="input-box">
               <label>Present Reading:</label>

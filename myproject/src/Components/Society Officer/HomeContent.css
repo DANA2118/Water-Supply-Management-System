@@ -4,18 +4,19 @@
   align-self: flex-start;
 }
 
-.main-container {
+.HomeContent .main-container {
   flex: 1;
-  margin-top: 100px;   
-  margin-left: 250px; 
+  margin-left: 270px; 
   padding: 20px;
+  margin-top: 0; 
+  padding-top: 50px; 
   overflow-y: auto;
 }
 
-.main-cards {
+.HomeContent .main-cards {
   display: grid;
   grid-template-columns: repeat(4, minmax(270px, 1fr));
-  gap: 30px;
+  gap: 20px;
   margin-top: 40px;
 }
 
@@ -67,7 +68,7 @@
 .chart-and-complaints {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  gap: 30px;
+  gap: 20px;
   margin-top: 40px;
 }
 

@@ -8,16 +8,43 @@ import Sidebar from './Sidebar';
 import './Reports.css';
 import ReportDocument from './ReportDocument';
 import IncomeStatementDocument from './IncomeStatementDocument';
+import YtdRevenueDocument from './YtdRevenueDocument';
+import ConsumptionPatternDocument from './ConsumptionPatternDocument';
 import { BiDownload, BiPrinter, BiRefresh } from 'react-icons/bi';
+import { Line } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+} from 'chart.js';
+
+// Register Chart.js components
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const Reports = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('cost'); // 'cost' or 'income'
+  const [activeTab, setActiveTab] = useState('cost'); // 'cost', 'income', 'ytd', 'consumption'
   const [reportType, setReportType] = useState('monthly');
   const [year, setYear] = useState(new Date().getFullYear());
   const [month, setMonth] = useState(new Date().getMonth() + 1);
+  const [accountNo, setAccountNo] = useState('');
   const [reportData, setReportData] = useState(null);
   const [incomeData, setIncomeData] = useState(null);
+  const [ytdData, setYtdData] = useState(null);
+  const [consumptionData, setConsumptionData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [description, setDescription] = useState('All');
@@ -69,11 +96,26 @@ const Reports = () => {
         
         const response = await axios.get(url, { headers });
         setReportData(response.data);
-      } else {
+      } else if (activeTab === 'income') {
         // Income Statement
         url = `http://localhost:8082/api/revenue/profitloss?year=${year}`;
         const response = await axios.get(url, { headers });
         setIncomeData(response.data);
+      } else if (activeTab === 'ytd') {
+        // YTD Revenue Summary
+        url = `http://localhost:8082/api/revenue/annualrevenue?year=${year}`;
+        const response = await axios.get(url, { headers });
+        setYtdData(response.data);
+      } else if (activeTab === 'consumption') {
+        // Household Consumption Pattern
+        if (!accountNo) {
+          setError('Please enter an account number');
+          setLoading(false);
+          return;
+        }
+        url = `http://localhost:8082/api/invoice/consumptionpattern?accountNo=${accountNo}`;
+        const response = await axios.get(url, { headers });
+        setConsumptionData(response.data);
       }
     } catch (error) {
       console.error('Error fetching report:', error);
@@ -101,7 +143,7 @@ const Reports = () => {
         fileName = reportType === 'monthly' 
           ? `${description !== 'All' ? description + '_' : ''}monthly_cost_report_${reportData.period}.pdf` 
           : `${description !== 'All' ? description + '_' : ''}yearly_cost_report_${reportData.period}.pdf`;
-      } else {
+      } else if (activeTab === 'income') {
         blob = await pdf(
           <IncomeStatementDocument 
             data={incomeData}
@@ -109,6 +151,23 @@ const Reports = () => {
         ).toBlob();
         
         fileName = `income_statement_${incomeData.year}.pdf`;
+      } else if (activeTab === 'ytd') {
+        blob = await pdf(
+          <YtdRevenueDocument 
+            data={ytdData}
+          />
+        ).toBlob();
+        
+        fileName = `ytd_revenue_summary_${ytdData.year}.pdf`;
+      } else if (activeTab === 'consumption') {
+        blob = await pdf(
+          <ConsumptionPatternDocument 
+            data={consumptionData}
+            accountNo={accountNo}
+          />
+        ).toBlob();
+        
+        fileName = `consumption_pattern_account_${accountNo}.pdf`;
       }
       
       saveAs(blob, fileName);
@@ -131,10 +190,23 @@ const Reports = () => {
             description={description !== 'All' ? description : null}
           />
         ).toBlob();
-      } else {
+      } else if (activeTab === 'income') {
         blob = await pdf(
           <IncomeStatementDocument 
             data={incomeData}
+          />
+        ).toBlob();
+      } else if (activeTab === 'ytd') {
+        blob = await pdf(
+          <YtdRevenueDocument 
+            data={ytdData}
+          />
+        ).toBlob();
+      } else if (activeTab === 'consumption') {
+        blob = await pdf(
+          <ConsumptionPatternDocument 
+            data={consumptionData}
+            accountNo={accountNo}
           />
         ).toBlob();
       }
@@ -164,6 +236,68 @@ const Reports = () => {
     return period; // For yearly reports, just return the year
   };
 
+  // Prepare consumption chart data
+  const getConsumptionChartData = () => {
+    if (!consumptionData || consumptionData.length === 0) return null;
+
+    const sortedData = [...consumptionData].sort((a, b) => {
+      // Sort by year then by month
+      if (a.year !== b.year) return a.year - b.year;
+      return a.month - b.month;
+    });
+
+    const labels = sortedData.map(item => {
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      return `${monthNames[item.month - 1]} ${item.year}`;
+    });
+
+    const consumptionValues = sortedData.map(item => item.consumption);
+
+    return {
+      labels,
+      datasets: [
+        {
+          label: 'Water Consumption',
+          data: consumptionValues,
+          borderColor: '#3b82f6',
+          backgroundColor: 'rgba(59, 130, 246, 0.5)',
+          tension: 0.3,
+          pointRadius: 4,
+          pointBackgroundColor: '#3b82f6',
+        }
+      ]
+    };
+  };
+
+  const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: 'Consumption Units'
+        }
+      },
+      x: {
+        title: {
+          display: true,
+          text: 'Month'
+        }
+      }
+    },
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Water Consumption Pattern'
+      }
+    }
+  };
+
   return (
     <div className="reports-page">
       <Header />
@@ -183,6 +317,18 @@ const Reports = () => {
             onClick={() => setActiveTab('income')}
           >
             Income Statement
+          </button>
+          <button 
+            className={`tab-button ${activeTab === 'ytd' ? 'active' : ''}`}
+            onClick={() => setActiveTab('ytd')}
+          >
+            YTD Revenue
+          </button>
+          <button 
+            className={`tab-button ${activeTab === 'consumption' ? 'active' : ''}`}
+            onClick={() => setActiveTab('consumption')}
+          >
+            Consumption Pattern
           </button>
         </div>
         
@@ -264,7 +410,7 @@ const Reports = () => {
             </>
           )}
           
-          {activeTab === 'income' && (
+          {(activeTab === 'income' || activeTab === 'ytd') && (
             <div className="control-group">
               <label>Year</label>
               <select 
@@ -275,6 +421,19 @@ const Reports = () => {
                   <option key={y} value={y}>{y}</option>
                 ))}
               </select>
+            </div>
+          )}
+
+          {activeTab === 'consumption' && (
+            <div className="control-group">
+              <label>Account Number</label>
+              <input
+                type="text"
+                value={accountNo}
+                onChange={(e) => setAccountNo(e.target.value)}
+                placeholder="Enter account number"
+                className="description-input"
+              />
             </div>
           )}
           
@@ -441,6 +600,123 @@ const Reports = () => {
                     <td className="amount">Rs. {Math.abs(incomeData.profitLoss).toFixed(2)}</td>
                   </tr>
                 </tfoot>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'ytd' && ytdData && (
+          <div className="report-container">
+            <div className="report-header">
+              <h2>Year-to-Date Revenue Summary - {ytdData.year}</h2>
+              <div className="report-actions">
+                <button className="btn btn-secondary" onClick={generatePDF}>
+                  <BiDownload /> Download PDF
+                </button>
+                <button className="btn btn-secondary" onClick={printReport}>
+                  <BiPrinter /> Print
+                </button>
+              </div>
+            </div>
+            
+            <div className="report-summary">
+              <div className="summary-card">
+                <div className="summary-label">Year</div>
+                <div className="summary-value">{ytdData.year}</div>
+              </div>
+              <div className="summary-card">
+                <div className="summary-label">Total Revenue</div>
+                <div className="summary-value">Rs. {ytdData.totalrevenue.toFixed(2)}</div>
+              </div>
+            </div>
+            
+            <div className="report-table-container">
+              <h3>YTD Revenue Details</h3>
+              <table className="report-table">
+                <thead>
+                  <tr>
+                    <th>Year</th>
+                    <th>Total Revenue (Rs.)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{ytdData.year}</td>
+                    <td className="amount">{ytdData.totalrevenue.toFixed(2)}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'consumption' && consumptionData && consumptionData.length > 0 && (
+          <div className="report-container">
+            <div className="report-header">
+              <h2>Household Consumption Pattern - Account #{accountNo}</h2>
+              <div className="report-actions">
+                <button className="btn btn-secondary" onClick={generatePDF}>
+                  <BiDownload /> Download PDF
+                </button>
+                <button className="btn btn-secondary" onClick={printReport}>
+                  <BiPrinter /> Print
+                </button>
+              </div>
+            </div>
+            
+            <div className="report-summary">
+              <div className="summary-card">
+                <div className="summary-label">Account Number</div>
+                <div className="summary-value">{accountNo}</div>
+              </div>
+              <div className="summary-card">
+                <div className="summary-label">Data Period</div>
+                <div className="summary-value">
+                  {consumptionData[0].month}/{consumptionData[0].year} - {
+                    consumptionData[consumptionData.length-1].month}/{consumptionData[consumptionData.length-1].year
+                  }
+                </div>
+              </div>
+              <div className="summary-card">
+                <div className="summary-label">Average Consumption</div>
+                <div className="summary-value">
+                  {(consumptionData.reduce((sum, item) => sum + item.consumption, 0) / consumptionData.length).toFixed(2)} units
+                </div>
+              </div>
+            </div>
+            
+            <div className="consumption-chart-container">
+              <h3>Consumption Trend</h3>
+              <div className="consumption-chart">
+                <Line data={getConsumptionChartData()} options={chartOptions} />
+              </div>
+            </div>
+            
+            <div className="report-table-container">
+              <h3>Monthly Consumption Details</h3>
+              <table className="report-table">
+                <thead>
+                  <tr>
+                    <th>Year</th>
+                    <th>Month</th>
+                    <th>Consumption (Units)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[...consumptionData]
+                    .sort((a, b) => {
+                      if (a.year !== b.year) return b.year - a.year;
+                      return b.month - a.month;
+                    })
+                    .map((item, index) => (
+                      <tr key={index}>
+                        <td>{item.year}</td>
+                        <td>{new Date(2000, item.month - 1, 1).toLocaleString('default', { month: 'long' })}</td>
+                        <td className="amount">{item.consumption.toFixed(2)}</td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
               </table>
             </div>
           </div>

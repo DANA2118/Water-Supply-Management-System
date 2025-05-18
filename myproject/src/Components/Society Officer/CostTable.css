@@ -1,0 +1,44 @@
+/* ---------- COST TABLE ---------- */
+.cost-table-container {
+  overflow-x: auto;
+  margin-bottom: 16px;
+  max-width: 1200px;
+  padding: 0 16px;
+}
+
+.cost-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 12px;
+  table-layout: fixed; /* This ensures equal column widths */
+}
+
+.cost-table th,
+.cost-table td {
+  padding: 14px 20px; /* Reduced padding for better fit */
+  text-align: left;
+  width: 25%; /* Each column takes 25% of the table width */
+}
+
+.cost-table th {
+  background: #10162a;
+  font-size: 0.75rem;
+  color: #bbb;
+  text-transform: uppercase;
+}
+
+.cost-table tbody tr {
+  background: #0f1624;
+}
+
+.cost-table tbody tr:hover {
+  background: #1a2435;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .cost-table th,
+  .cost-table td {
+    padding: 12px 10px; /* Even smaller padding on mobile */
+  }
+}

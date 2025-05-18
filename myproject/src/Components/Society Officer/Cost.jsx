@@ -3,10 +3,9 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from './Sidebar';
 import Header from './Header';
 import axios from 'axios';
-import {
-    DollarSign, FileText, Users, Search, Filter, Download
-} from 'lucide-react';
+import {DollarSign, FileText, Users, Search} from 'lucide-react';
 import './Invoice.css';
+import './CostTable.css';
 
 const Cost = () => {
     const [vouchers, setVouchers] = useState([]);
@@ -20,7 +19,6 @@ const Cost = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const resultsPerPage = 5;
 
-    // Pagination calculations - use filteredVouchers, not filtered!
     const totalPages = Math.max(1, Math.ceil(filteredVouchers.length / resultsPerPage));
     const paginatedResults = filteredVouchers.slice(
         (currentPage - 1) * resultsPerPage,
@@ -88,7 +86,6 @@ const Cost = () => {
         fetchCosts();
     }, []);
 
-    // Reset to page 1 when search/filter changes
     useEffect(() => {
         setCurrentPage(1);
     }, [filteredVouchers]);
@@ -116,7 +113,6 @@ const Cost = () => {
             <main className="billing-content">
                 <h1 className="page-title">Payment Vouchers</h1>
 
-                {/* --- CARDS --- */}
                 <div className="cards">
                     <div className="card">
                         <div className="card-icon card-icon--blue"><DollarSign size={24} /></div>
@@ -164,16 +160,11 @@ const Cost = () => {
                             <FileText size={16} className="btn-icon" />
                             Add Voucher
                         </button>
-                        <button className="btn btn--outline">
-                            <Download size={16} className="btn-icon" />
-                            Export
-                        </button>
                     </div>
                 </div>
 
-                {/* --- TABLE --- */}
-                <div className="table-container">
-                    <table className="billing-table">
+                <div className="cost-table-container">
+                    <table className="cost-table">
                         <thead>
                             <tr>
                                 <th>Voucher ID</th>

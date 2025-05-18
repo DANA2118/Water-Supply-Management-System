@@ -1,39 +1,56 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { BiPlus } from "react-icons/bi";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
-import Search from "./Search";
-import CustomizedTables from "./Table";
-import { IoMdAdd } from "react-icons/io";
+import SearchBar from "./Search";
+import CustomerTable from "./Table";
 import "./Connection.css";
 
 const Connection = () => {
   const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState('');
+
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+  };
 
   return (
-    <div className="Connection">
+    <div className="connection-page">
       <Header />
       <Sidebar />
-      <div className="main-container">
-        <div className="top-section">
+      <main className="connection-content">
+        <div className="connection-header">
           <div className="search-container">
-            <Search />
+            <SearchBar onSearch={handleSearch}/>
           </div>
-
-          {/* 🎯 Add & View Arrears Buttons aligned with table */}
-          <div className="button-container">
-            <button className="add-button"  onClick={() => navigate("/AddCustomer")}>
-              <IoMdAdd className="add-icon"/>
-              Add Customer
-            </button>
-            <button className="view-button">View Arrears</button>
+          <button 
+            className="btn btn-primary add-customer-btn"
+            onClick={() => navigate("/AddCustomer")}
+          >
+            <BiPlus /> Add Customer
+          </button>
+        </div>
+        
+        {successMessage && (
+          <div className="success-message">
+            {successMessage}
           </div>
+        )}
+        
+        {error && (
+          <div className="error-message">
+            {error}
+          </div>
+        )}
+        
+        <div className="customer-table-container">
+          <h2>Customer Details</h2>
+          <CustomerTable searchTerm={searchTerm} />
         </div>
-
-        <div className="table-container">
-          <CustomizedTables />
-        </div>
-      </div>
+      </main>
     </div>
   );
 };

@@ -11,7 +11,6 @@
   padding: 1rem 0;
 }
 
-/* logo area */
 .sidebar-header {
   display: flex;
   align-items: center;
@@ -26,13 +25,11 @@
   margin-left: 0.5rem;
   font-size: 1.5rem;
   font-weight: bold;
-  /* gradient text effect */
   background-image: linear-gradient(to right, #2563EB, #14B8A6);
   -webkit-background-clip: text;
   color: transparent;
 }
 
-/* nav list */
 .sidebar-nav {
   flex: 1;
   margin-top: 1rem;

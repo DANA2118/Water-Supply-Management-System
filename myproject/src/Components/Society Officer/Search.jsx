@@ -1,24 +1,39 @@
-import React from 'react'
-import "./Search.css";
+import React, { useState } from 'react';
 import { BiSearch } from 'react-icons/bi';
-const Search = () => {
-  const handleSearch = () => {
-    alert("Searching..."); // Replace this with your actual search logic
+import './Search.css';
+
+const SearchBar = ({ onSearch }) => {
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (onSearch) {
+      onSearch(searchTerm);
+    }
   };
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    onSearch(value);
+  };
+
   return (
-    <div className="search-bar">
-      <form className="search-form d-flex align-items-center" method="POST" action="#">
+    <form className="search-form" onSubmit={handleSearch}>
+      <div className="search-input-container">
         <input
           type="text"
-          name="query"
-          placeholder="Search"
-          title="Enter Search Keyword"
+          placeholder="Search customers..."
+          value={searchTerm}
+          onChange={handleChange}
+          className="search-input"
         />
-        <BiSearch className="search-icon" onClick={handleSearch} />
-
-      </form>
-    </div>
+        <div className="search-icon" onClick={handleSearch}>
+          <BiSearch />
+        </div>
+      </div>
+    </form>
   );
 };
 
-export default Search;
+export default SearchBar;

@@ -15,6 +15,7 @@ const TITLE_MAP = {
   '/cost': 'Payment Vouchers',
   '/reports': 'Reports',
   '/paymentform': 'Payment Form',
+  '/tariffs': 'Tariffs',
 
   // add more routes ↴
 };

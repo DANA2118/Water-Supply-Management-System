@@ -14,6 +14,7 @@ const Billing = () => {
   const [invoices,     setInvoices]     = useState([]);
   const [isOverdue,    setIsOverdue]    = useState(false);
   const [loading,      setLoading]      = useState(true);
+  const [totalrevenue, setTotalRevenue] = useState(0);
   const [error,        setError]        = useState(null);
   const navigate = useNavigate();
 
@@ -39,11 +40,8 @@ const Billing = () => {
   };
 
   useEffect(() => {
-    // initial load = all invoices
     fetchInvoices('all');
   }, []);
-
-  // If user toggles filter dropdown
   const handleStatusFilterChange = (e) => {
     const value = e.target.value;
     setStatusFilter(value);
@@ -51,15 +49,32 @@ const Billing = () => {
     if (value === 'overdue') {
       fetchInvoices('overdue');
     } else {
-      // for paid or unpaid or all
       fetchInvoices('all');
     }
   };
 
+  useEffect(() => {
+    const fetchTotalRevenue = async () => {
+      const token   = localStorage.getItem('token');
+      const headers = { Authorization: `Bearer ${token}` };
+      const year   = new Date().getFullYear();
+      try {
+        const res = await axios.get(
+          `http://localhost:8082/api/revenue/annualrevenue?year=${year}`,
+          { headers }
+        );
+        setTotalRevenue(res.data.totalrevenue);
+      } catch (err) {
+        console.error(err);
+        setError('Failed to load total revenue');
+      }
+    };
+    fetchTotalRevenue();
+  }, []);
+
   if (loading) return <div className="billing-content">Loading…</div>;
   if (error)   return <div className="billing-content">Error: {error}</div>;
 
-  // Normalize so each invoice has a .status string
   const normalized = invoices.map(inv => ({
     ...inv,
     customerName: inv.customerName ?? inv.name,
@@ -68,16 +83,11 @@ const Billing = () => {
       : inv.status || 'unknown'
   }));
 
-  // Now filter safely
   const filtered = normalized.filter(inv =>
     statusFilter === 'all'
       || inv.status.toLowerCase() === statusFilter
   );
 
-  // Metrics
-  const totalRevenue = filtered.reduce((sum, inv) =>
-    sum + (inv.totalamount || 0), 0
-  );
   const totalBalance = filtered.reduce((sum, inv) =>
     sum + (inv.balanceforpay || 0), 0
   );
@@ -114,10 +124,10 @@ const Billing = () => {
             <div>
               <div className="card-label">Total Revenue</div>
               <div className="card-value">
-                {totalRevenue.toFixed(2)}
+                {totalrevenue.toFixed(2)}
               </div>
               <div className="card-note card-note--green">
-                +{((totalRevenue/10000)*100).toFixed(1)}% from last month
+                +{((totalrevenue/10000)*100).toFixed(1)}% from last month
               </div>
             </div>
           </div>
@@ -157,7 +167,6 @@ const Billing = () => {
           </div>
         </div>
 
-        {/* — CONTROLS — */}
         <div className="controls">
           <div className="search-box">
             <Search size={16} className="icon-inline" />

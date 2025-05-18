@@ -134,8 +134,7 @@ const HomeContent = () => {
               <h3>Revenue Growth</h3>
               <BiTrendingUp className="icon purple" />
             </div>
-            <div className="card-value">7.5%</div>
-            <div className="card-footnote green">+7.5% ↑</div>
+            <div className="card-value">0</div>
           </div>
         </div>
         <div className="chart-and-complaints">

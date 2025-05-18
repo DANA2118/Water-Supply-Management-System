@@ -1,4 +1,3 @@
-// PaymentVoucher.jsx
 import React, { useState, useEffect } from "react";
 import Sidebar from "./Sidebar";
 import Header from "./Header";

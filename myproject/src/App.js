@@ -20,6 +20,8 @@ import Cost           from './Components/Society Officer/Cost';
 import Paymentvoucher from './Components/Society Officer/paymentvoucher';
 import PaymentForm   from './Components/Society Officer/Paymentform';
 import Reports  from './Components/Society Officer/Reports';
+import Tariffs from './Components/Society Officer/Tariffs';
+import Certifications from './Components/Society Officer/Certification';
 
 
 const App = () => {
@@ -44,6 +46,8 @@ const App = () => {
         <Route path="/cost"              element={<Cost />} />
         <Route path='/paymentvoucher' element={<Paymentvoucher/>}/>
         <Route path='/reports' element={<Reports/>}/>
+        <Route path='/tariffs' element={<Tariffs/>}/>
+        <Route path='/certificate' element={<Certifications/>}/>
       </Routes>
     </div>
   );
