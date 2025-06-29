@@ -69,12 +69,10 @@ const AddCustomerForm = () => {
             </div>
           </div>
 
-          {/* 🎯 Email Field */}
           <div className="input-box">
             <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
           </div>
 
-          {/* 🎯 Phone Number & Meter Number */}
           <div className="row">
             <div className="input-box">
               <input type="text" placeholder="Phone Number" value={telephoneNo} onChange={(e) => setPhoneNumber(e.target.value)} required />
@@ -84,12 +82,10 @@ const AddCustomerForm = () => {
             </div>
           </div>
 
-          {/* 🎯 Address Field */}
           <div className="input-box">
             <input type="text" placeholder="Address" value={address} onChange={(e) => setAddress(e.target.value)} required />
           </div>
 
-          {/* 🎯 Status & User Type Dropdowns */}
           <div className="row">
             <div className="input-box">
               <select value={status} onChange={(e) => setStatus(e.target.value)} required>
@@ -107,7 +103,6 @@ const AddCustomerForm = () => {
             </div>
           </div>
 
-          {/* 🎯 Submit Button */}
           <button type="submit" className="submit-btn">Add Customer</button>
         </form>
       </div>

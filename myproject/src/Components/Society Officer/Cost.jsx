@@ -111,8 +111,6 @@ const Cost = () => {
             <Header />
             <Sidebar />
             <main className="billing-content">
-                <h1 className="page-title">Payment Vouchers</h1>
-
                 <div className="cards">
                     <div className="card">
                         <div className="card-icon card-icon--blue"><DollarSign size={24} /></div>

@@ -14,7 +14,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:8082/auth/login", {
+      const response = await fetch("http://localhost:8082/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -25,12 +25,9 @@ const Login = () => {
       if (data.statusCode === 200) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("role", data.role);
+        localStorage.setItem("username", data.username);
 
-        if (data.role === "CUSTOMER") {
-          navigate("/CHomeContent");
-        } else if (data.role === "SOCIETY_OFFICER") {
-          navigate("/HomeContent");
-        }
+        navigate("/HomeContent");
       } else {
         alert("Invalid credentials");
       }
@@ -51,7 +48,7 @@ const Login = () => {
               <div className="tagline">Water Supply Management System</div>
             </div>
             <form onSubmit={handleLogin}>
-              <h2>Login</h2>
+              <h2>Officer Login</h2>
               <div className="input-box">
                 <input
                   type="text"
@@ -81,14 +78,6 @@ const Login = () => {
               </div>
 
               <button type="submit">Login</button>
-              <div className="register-link">
-                <p>
-                  Don't have an account?{" "}
-                  <a href="#" onClick={() => navigate("/register")}>
-                    Create Account
-                  </a>
-                </p>
-              </div>
             </form>
           </div>
         </div>

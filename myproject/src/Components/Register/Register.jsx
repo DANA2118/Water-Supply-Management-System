@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Register.css";
-import { FaUser, FaLock } from "react-icons/fa";
+import { FaUser, FaLock, FaUserTag } from "react-icons/fa";
 import { IoMdMail } from "react-icons/io";
 
 const Register = () => {
@@ -9,7 +9,28 @@ const Register = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [role, setRole] = useState("SOCIETY_OFFICER");
+    const [isAdmin, setIsAdmin] = useState(false);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        const userRole = localStorage.getItem("role");
+        
+        if (!token) {
+            alert("You must be logged in to register staff members");
+            navigate("/login");
+            return;
+        }
+        
+        if (userRole !== "ADMIN") {
+            alert("Only administrators can register new staff members");
+            navigate("/HomeContent");
+            return;
+        }
+        
+        setIsAdmin(true);
+    }, [navigate]);
 
     const handleRegister = async (e) => {
         e.preventDefault();
@@ -20,17 +41,22 @@ const Register = () => {
         }
 
         try {
-            const response = await fetch("http://localhost:8082/auth/register", {
+            const token = localStorage.getItem("token");
+            
+            const response = await fetch("http://localhost:8082/api/auth/register/staff", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, email, password }),
+                headers: { 
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({ username, email, password, role }),
             });
 
             const data = await response.json();
 
             if (data.statusCode === 200) {
-                alert("Registration Successful! Redirecting to login...");
-                navigate("/login");
+                alert("Staff Registration Successful!");
+                navigate("/HomeContent");
             } else {
                 alert(data.message || "Registration failed. Please try again.");
             }
@@ -40,6 +66,10 @@ const Register = () => {
         }
     };
 
+    if (!isAdmin) {
+        return <div className="loading">Checking permissions...</div>;
+    }
+
     return (
         <>
         <div className="auth-background" />
@@ -47,7 +77,7 @@ const Register = () => {
             <div className="Register-wrapper">
                 <div className="form-box Register">
                     <form onSubmit={handleRegister}>
-                        <h2>Register</h2>
+                        <h2>Register Staff</h2>
                         <div className="input-box">
                             <input
                                 type="text"
@@ -88,12 +118,24 @@ const Register = () => {
                             />
                             <FaLock className="icon" />
                         </div>
-                        <button type="submit">Register</button>
+                        <div className="input-box">
+                            <select
+                                value={role}
+                                onChange={(e) => setRole(e.target.value)}
+                                required
+                                className="custom-select"
+                            >
+                                <option value="ADMIN">Admin</option>
+                                <option value="SOCIETY_OFFICER">Society Officer</option>
+                                <option value="CASHIER">Cashier</option>
+                            </select>
+                            <FaUserTag className="icon" />
+                        </div>
+                        <button type="submit">Register Staff</button>
                         <div className="Login-link">
                             <p>
-                                Already have an account?{" "}
-                                <a href="#" onClick={() => navigate("/login")}>
-                                    Login
+                                <a href="#" onClick={() => navigate("/HomeContent")}>
+                                    Back to Dashboard
                                 </a>
                             </p>
                         </div>

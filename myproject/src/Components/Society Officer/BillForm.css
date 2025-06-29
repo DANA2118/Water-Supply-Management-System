@@ -65,7 +65,7 @@
   
   .generate-btn {
     background-color: #007bff;
-    color: white;
+    color: rgb(220, 215, 215);
     padding: 12px 24px;
     border: none;
     border-radius: 5px;
@@ -73,12 +73,15 @@
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
   }
+
+  .helper-text{
+    color: white;
+  }
   
   .generate-btn:hover {
     background-color: #0056b3;
   }
   
-  /* Responsive Design */
   @media (max-width: 768px) {
     .row {
       flex-direction: column;

@@ -28,8 +28,8 @@ const HomeContent = () => {
           }
         });
     
-        console.log("API Response:", response); // 🔍 Debugging
-        console.log("Response Data:", response.data); // 🔍 Debugging
+        console.log("API Response:", response); 
+        console.log("Response Data:", response.data); 
     
         setTotalCustomers(response.data || 0); 
       } catch (error) {
@@ -55,8 +55,8 @@ const HomeContent = () => {
           }
         });
     
-        console.log("API Response:", response); // 🔍 Debugging
-        console.log("Response Data:", response.data); // 🔍 Debugging
+        console.log("API Response:", response); 
+        console.log("Response Data:", response.data);
     
         setActiveCustomers(response.data || 0); 
       } catch (error) {

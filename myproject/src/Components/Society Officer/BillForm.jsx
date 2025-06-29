@@ -64,7 +64,6 @@ const BillForm = () => {
     }
   }, [formData.presentReading, formData.previousReading])
 
-  // Called when present reading field loses focus
   const handleCalculationBlur = async () => {
     if (!formData.presentReading || !formData.previousReading) return;
     try {

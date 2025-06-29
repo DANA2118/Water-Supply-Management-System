@@ -99,6 +99,7 @@ const CustomerTable = ({ searchTerm = '' }) => {
               <th>Name</th>
               <th>Address</th>
               <th>Account No</th>
+              <th>Phone Number</th>
               <th>Meter No</th>
               <th>Status</th>
               <th>Actions</th>
@@ -110,6 +111,7 @@ const CustomerTable = ({ searchTerm = '' }) => {
                 <td>{customer.name}</td>
                 <td>{customer.address}</td>
                 <td>{customer.accountNo}</td>
+                <td>{customer.telephoneNo}</td>
                 <td>{customer.meterNo}</td>
                 <td>
                   <span className={`status-badge ${customer.status.toLowerCase()}`}>

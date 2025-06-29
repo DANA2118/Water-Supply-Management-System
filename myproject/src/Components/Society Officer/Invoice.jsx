@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate }                 from "react-router-dom";
-import Sidebar                        from './Sidebar';
-import Header                         from './Header';
-import axios                          from 'axios';
-import {
-  DollarSign, FileText, Printer, Mail,
-  Search, Filter, Download
-} from 'lucide-react';
+import { useNavigate } from "react-router-dom";
+import Sidebar from './Sidebar';
+import Header from './Header';
+import axios from 'axios';
+import {DollarSign, FileText, Printer, Mail,Search, Filter, Download} from 'lucide-react';
 import './Invoice.css';
 
 const Billing = () => {
@@ -18,7 +15,6 @@ const Billing = () => {
   const [error,        setError]        = useState(null);
   const navigate = useNavigate();
 
-  // Whenever we fetch (all or overdue), call this
   const fetchInvoices = async (mode) => {
     setLoading(true);
     setError(null);
@@ -113,9 +109,6 @@ const Billing = () => {
       <Header />
       <Sidebar />
       <main className="billing-content">
-        <h1 className="page-title">Billing</h1>
-
-        {/* — CARDS — */}
         <div className="cards">
           <div className="card">
             <div className="card-icon card-icon--blue">
@@ -210,8 +203,6 @@ const Billing = () => {
             </button>
           </div>
         </div>
-
-        {/* — TABLE — */}
         <div className="table-container">
           <table className="billing-table">
             <thead>
@@ -249,22 +240,6 @@ const Billing = () => {
               ))}
             </tbody>
           </table>
-        </div>
-
-        {/* — PAGINATION — */}
-        <div className="pagination">
-          <div className="page-info">
-            Showing <strong>{filtered.length}</strong> of <strong>{invoices.length}</strong> bills
-          </div>
-          <div className="page-controls">
-            <button className="btn btn--outline btn--sm" disabled>
-              Previous
-            </button>
-            <span className="page-number">Page 1 of 1</span>
-            <button className="btn btn--outline btn--sm" disabled>
-              Next
-            </button>
-          </div>
         </div>
       </main>
     </div>
