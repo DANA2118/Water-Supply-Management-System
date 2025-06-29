@@ -10,7 +10,6 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,39 +18,77 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@EnableWebSecurity
 public class SecurityConfig {
 
     @Autowired
-    private userDetailsService UserDetailsService;
+    private userDetailsService userDetailsService;
 
     @Autowired
     private JWTAuthFilter jwtAuthFilter;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
-                .authorizeHttpRequests(request->request.requestMatchers("/auth/**", "/public/**").permitAll()
-                        .requestMatchers("/officer/**","/api/invoice/**","/api/paymentvoucher/**","/api/arrears**","api/complaint/all","api/payments/cash","/api/revenue/**", "/api/tariff/**", "/api/costreport/**").hasAnyAuthority("SOCIETY_OFFICER")
-                        .requestMatchers("/customer/**").hasAnyAuthority("CUSTOMER","SOCIETY_OFFICER")
-                        .requestMatchers("/api/v1/customer/**", "api/complaint/save","api/payments/create","api/payments/confirm").hasAnyAuthority("CUSTOMER")
-                        .anyRequest().authenticated())
-                .sessionManagement(manager->manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider()).addFilterBefore(
-                        jwtAuthFilter, UsernamePasswordAuthenticationFilter.class
-                );
+                .authorizeHttpRequests(auth -> auth
 
-        return httpSecurity.build();
+                        // Public
+                        .requestMatchers("/api/auth/register/customer", "/api/auth/login").permitAll()
+
+                        // CUSTOMER
+                        .requestMatchers("/api/v1/customer/**", "/api/complaint/save", "/api/payments/create", "/api/payments/confirm")
+                        .hasAuthority("CUSTOMER")
+
+                        // CASHIER
+                        .requestMatchers(
+                                "/api/payments/cash",
+                                "/api/customer/get",
+                                "/api/revenue/**",
+                                "/api/customer/total",
+                                "/api/customer/active",
+                                "/api/complaint/all",
+                                "/api/paymentvoucher/**",
+                                "/api/invoice/getlatestinvoice/**",
+                                "/api/invoice/getall",
+                                "/api/invoice/consumptionpattern",
+                                "/api/tariff/current",
+                                "/api/tariff/all",
+                                "/api/costreport/**"
+                        ).hasAnyAuthority("CASHIER", "SOCIETY_OFFICER", "ADMIN")
+
+                        // SOCIETY_OFFICER
+                        .requestMatchers(
+                                "/api/customer/**",
+                                "/api/arrears/**",
+                                "/api/revenue/**",
+                                "/api/invoice/**",
+                                "/api/tariff/**",
+                                "/api/costreport/**",
+                                "/api/paymentvoucher/**"
+                        ).hasAnyAuthority("SOCIETY_OFFICER", "ADMIN")
+
+                        // ADMIN
+                        .requestMatchers("/api/auth/register/staff").hasAuthority("ADMIN")
+
+                        // Everything else requires auth
+                        .anyRequest().authenticated()
+                )
+
+
+                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authenticationProvider(authenticationProvider())
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
     }
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(UserDetailsService);
-        provider.setPasswordEncoder(passwordEncoder());
-        return provider;
+        DaoAuthenticationProvider p = new DaoAuthenticationProvider();
+        p.setUserDetailsService(userDetailsService);
+        p.setPasswordEncoder(passwordEncoder());
+        return p;
     }
 
     @Bean
@@ -60,7 +97,9 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
+    public AuthenticationManager authenticationManager(
+            AuthenticationConfiguration config
+    ) throws Exception {
+        return config.getAuthenticationManager();
     }
 }

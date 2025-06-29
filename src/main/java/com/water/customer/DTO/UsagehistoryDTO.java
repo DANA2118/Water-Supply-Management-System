@@ -18,5 +18,5 @@ public class UsagehistoryDTO {
     private double balanceforpay;
     private Invoice.Status status;
     private LocalDate duedate;
-
+    private LocalDate issuedate;
 }

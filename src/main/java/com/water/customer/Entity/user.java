@@ -27,14 +27,10 @@ public class user implements UserDetails {
     @Column(unique = true)
     private String email;
 
-    //@Column(unique = true, nullable = false)
-    //private String username;
 
     @Column(nullable = false)
     private String password;
 
-    //@Column(name = "AccountNo", nullable = true)
-    //private Integer accountNo;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -70,8 +66,10 @@ public class user implements UserDetails {
         return UserDetails.super.isEnabled();
     }
 
-    public enum Role{
+    public enum Role {
+        ADMIN,
         SOCIETY_OFFICER,
+        CASHIER,
         CUSTOMER
     }
 

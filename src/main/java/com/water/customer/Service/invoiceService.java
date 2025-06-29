@@ -94,7 +94,7 @@ public class invoiceService {
         invoice.setTotalamount(calculatedamount.getTotalamount());
         invoice.setBalanceforpay(calculatedamount.getBalanceforpay());
         invoice.setIssuedate(LocalDate.now());
-        invoice.setDuedate(LocalDate.now().plusDays(1));
+        invoice.setDuedate(LocalDate.now().plusDays(30));
         invoice.setStatus(Invoice.Status.UNPAID);
 
         return invoiceRepo.save(invoice);
@@ -149,7 +149,8 @@ public class invoiceService {
                     inv.getTotalamount(),
                     inv.getBalanceforpay(),
                     inv.getStatus(),
-                    inv.getDuedate()
+                    inv.getDuedate(),
+                    inv.getIssuedate()
             );
         }).collect(Collectors.toList());
     }
@@ -172,7 +173,8 @@ public class invoiceService {
                 latestInvoice.getTotalamount(),
                 latestInvoice.getBalanceforpay(),
                 latestInvoice.getStatus(),
-                latestInvoice.getDuedate()
+                latestInvoice.getDuedate(),
+                latestInvoice.getIssuedate()
         );
     }
 
