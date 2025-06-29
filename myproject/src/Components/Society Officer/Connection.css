@@ -1,0 +1,80 @@
+.connection-page {
+  display: flex;
+  min-height: 100vh;
+}
+
+.connection-page .connection-content {
+  flex: 1;
+  margin-left: 270px;
+  padding: 80px 20px 20px;
+  background-color: #0c1821;
+  color: #ffffff;
+}
+
+.connection-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.add-customer-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #10b981;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.add-customer-btn:hover {
+  background-color: #059669;
+}
+
+.customer-table-container {
+  background-color: #1e2a33;
+  border-radius: 8px;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.customer-table-container h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 1.4rem;
+  color: #e2e8f0;
+}
+
+.success-message {
+  background-color: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+.error-message {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .connection-content {
+    margin-left: 0;
+    padding-top: 70px;
+  }
+  
+  .connection-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+}

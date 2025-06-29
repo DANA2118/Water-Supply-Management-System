@@ -1,0 +1,126 @@
+/* voucher.css */
+
+.paymentvoucher {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    width: 100%;
+    padding-top: 80px;
+  }
+  
+  .voucher-container {
+    width: 100%;
+    max-width: 950px;
+    background: #101c24;
+    padding: 20px;
+    border-radius: 10px;
+    color: #fff;
+    margin-left: 250px;
+  }
+  
+  .voucher-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .row {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    margin-bottom: 12px;
+  }
+  
+  /* Specifically ensure line rows never wrap */
+  .line-row {
+    flex-wrap: nowrap;
+  }
+  
+  /* Inputs grow, buttons do not */
+  .voucher-input-box {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .voucher-input-box label {
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+  
+  .voucher-input-box input {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #444;
+    background: #1e2a33;
+    color: #fff;
+  }
+  
+.icon-btn.MuiIconButton-root {
+  padding: 4px ;
+  min-width: 0 ; 
+  width: auto ;  
+  height: auto ;       
+  background: none ;   
+}
+
+
+.icon-btn svg {
+  width: 1em;
+  height: 1em;
+}
+
+
+  .icon-btn.add {
+    color: #10b981;
+  }
+  
+  .icon-btn.remove {
+    color: #ef4444;  /* red */
+  }
+  
+  /* Total and submit styling */
+  .total-box {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+  }
+  
+  .total-box label {
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+  
+  .total-box input {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #444;
+    background: #1e2a33;
+    color: #fff;
+    cursor: default;
+  }
+  
+  .submit-btn {
+    background: #3b82f6;
+    border: none;
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    align-self: flex-start;
+  }
+  
+  /* On very small screens, inputs stack but icon buttons stay inline */
+  @media (max-width: 600px) {
+    .row {
+      flex-direction: column;
+    }
+    .line-row {
+      flex-direction: row;
+      flex-wrap: nowrap;
+    }
+    .icon-btn {
+      margin-top: 8px;
+    }
+  }
+  

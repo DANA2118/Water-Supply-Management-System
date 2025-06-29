@@ -1,0 +1,243 @@
+.tariffs-page {
+  display: flex;
+  min-height: 100vh;
+}
+
+.tariffs-content {
+  flex: 1;
+  margin-left: 270px;
+  padding: 80px 20px 20px;
+  background-color: #0c1821;
+  color: #ffffff;
+}
+
+.tariffs-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.page-title {
+  font-size: 1.8rem;
+  margin: 0;
+  color: #ffffff;
+}
+
+.add-tariff-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #10b981;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.add-tariff-btn:hover {
+  background-color: #059669;
+}
+
+.tariff-form-container {
+  background-color: #1e2a33;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.tariff-form-container h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 1.4rem;
+  color: #e2e8f0;
+}
+
+.tariff-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: #cbd5e1;
+}
+
+.form-group input,
+.form-group select {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #334155;
+  background-color: #0f172a;
+  color: #e2e8f0;
+  font-size: 1rem;
+}
+
+.form-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.btn {
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  border: none;
+  transition: background-color 0.2s;
+}
+
+.btn-primary {
+  background-color: #10b981;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #059669;
+}
+
+.btn-secondary {
+  background-color: #475569;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #334155;
+}
+
+.tariffs-table-container {
+  background-color: #1e2a33;
+  border-radius: 8px;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.tariffs-table-container h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 1.4rem;
+  color: #e2e8f0;
+}
+
+.tariffs-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.tariffs-table th,
+.tariffs-table td {
+  padding: 12px 16px;
+  text-align: left;
+}
+
+.tariffs-table th {
+  background-color: #101c24;
+  color: #94a3b8;
+  font-weight: 500;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tariffs-table tbody tr {
+  background-color: #152029;
+  transition: background-color 0.2s;
+}
+
+.tariffs-table tbody tr:hover {
+  background-color: #1a2734;
+}
+
+.tariffs-table td {
+  border-bottom: 1px solid #1e2a33;
+}
+
+.numeric {
+  text-align: right;
+  font-family: 'Courier New', monospace;
+  font-weight: 500;
+}
+
+.user-type {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.user-type.residential {
+  background-color: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+}
+
+.user-type.commercial {
+  background-color: rgba(59, 130, 246, 0.2);
+  color: #3b82f6;
+}
+
+
+.success-message {
+  background-color: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+.error-message {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+.loading-spinner {
+  text-align: center;
+  padding: 40px;
+  color: #94a3b8;
+}
+
+.no-data-message {
+  text-align: center;
+  padding: 40px;
+  color: #94a3b8;
+  background-color: #152029;
+  border-radius: 6px;
+}
+
+@media (max-width: 768px) {
+  .tariffs-content {
+    margin-left: 0;
+    padding-top: 70px;
+  }
+  
+  .tariffs-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  .tariffs-table {
+    display: block;
+    overflow-x: auto;
+  }
+}

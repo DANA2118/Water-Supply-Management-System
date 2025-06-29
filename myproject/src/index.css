@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@400;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0; padding: 0;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+}
+
+.auth-background, .app-background {
+  min-height: 100%;
+}
+
+
+.auth-background {
+  background: url('./Components/Assets/realistic-water-drop-with-ecosystem 1.png') 
+              no-repeat center/cover;
+}
+
+.app-background {
+  background-color: #192a37;
+  
+}

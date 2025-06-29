@@ -1,0 +1,158 @@
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 270px;
+  right: 0;
+  height: 60px;
+  background: #1d3140;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  z-index: 90;
+  transition: background 0.3s, border-color 0.3s;
+}
+
+.app-header.dark {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+.header-title {
+  flex: 1;                        
+  font-size: 1.5rem;              
+  font-weight: bold;
+  background: white; 
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; 
+}
+
+.app-header.dark .header-title {
+  color: #e5e7eb;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.action-icon {
+  font-size: 1.25rem;            
+  color: white;               
+  cursor: pointer;
+}
+
+.app-header.dark .action-icon {
+  color: #d1d5db;                 
+}
+
+.user-profile {
+  position: relative;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.user-info:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  background: #07637c;            
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.user-text .user-name {
+  font-size: .875rem;
+  font-weight: 500;
+  color: white;
+}
+
+.user-text .user-role {
+  font-size: .75rem;
+  color: #c1c2c5;
+}
+
+.dropdown-icon {
+  color: white;
+  font-size: 0.75rem;
+  margin-left: 4px;
+}
+
+.logout-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  background: #1a2a38;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 160px;
+  z-index: 100;
+}
+
+.logout-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  background: none;
+  text-align: left;
+  color: white;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.logout-button:hover {
+  background-color: #263a4d;
+}
+
+.logout-icon {
+  font-size: 0.875rem;
+  color: #f87171;
+}
+
+.app-header.dark .user-text .user-name,
+.app-header.dark .user-text .user-role {
+  color: #e5e7eb;
+}
+
+.register-staff-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #10b981;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.register-staff-btn:hover {
+  background-color: #059669;
+}
+
+.btn-icon {
+  font-size: 0.9rem;
+}
